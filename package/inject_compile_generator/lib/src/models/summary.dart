@@ -1,9 +1,6 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'injected_type.dart';
 import 'symbol_path.dart';
-
-part 'summary.g.dart';
 
 /// The kind of provider.
 enum ProviderKind {
@@ -19,7 +16,6 @@ enum ProviderKind {
 
 /// Metadata for a provider (method or constructor).
 @immutable
-@JsonSerializable()
 class ProviderSummary {
   /// The name of the method or constructor.
   final String name;
@@ -49,14 +45,33 @@ class ProviderSummary {
   });
 
   factory ProviderSummary.fromJson(Map<String, dynamic> json) =>
-      _$ProviderSummaryFromJson(json);
+      ProviderSummary(
+        name: json['name'] as String,
+        resultType: InjectedType.fromJson(
+          json['resultType'] as Map<String, dynamic>,
+        ),
+        kind: ProviderKind.values.byName(json['kind'] as String),
+        isSingleton: json['isSingleton'] as bool? ?? false,
+        isAsynchronous: json['isAsynchronous'] as bool? ?? false,
+        dependencies:
+            (json['dependencies'] as List<dynamic>?)
+                ?.map((e) => InjectedType.fromJson(e as Map<String, dynamic>))
+                .toList() ??
+            const [],
+      );
 
-  Map<String, dynamic> toJson() => _$ProviderSummaryToJson(this);
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'resultType': resultType.toJson(),
+    'kind': kind.name,
+    'isSingleton': isSingleton,
+    'isAsynchronous': isAsynchronous,
+    'dependencies': dependencies.map((e) => e.toJson()).toList(),
+  };
 }
 
 /// Metadata for a module class.
 @immutable
-@JsonSerializable()
 class ModuleSummary {
   /// The class that defines the module.
   final SymbolPath clazz;
@@ -66,15 +81,21 @@ class ModuleSummary {
 
   const ModuleSummary({required this.clazz, required this.providers});
 
-  factory ModuleSummary.fromJson(Map<String, dynamic> json) =>
-      _$ModuleSummaryFromJson(json);
+  factory ModuleSummary.fromJson(Map<String, dynamic> json) => ModuleSummary(
+    clazz: SymbolPath.fromJson(json['clazz'] as Map<String, dynamic>),
+    providers: (json['providers'] as List<dynamic>)
+        .map((e) => ProviderSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 
-  Map<String, dynamic> toJson() => _$ModuleSummaryToJson(this);
+  Map<String, dynamic> toJson() => {
+    'clazz': clazz.toJson(),
+    'providers': providers.map((e) => e.toJson()).toList(),
+  };
 }
 
 /// Metadata for an injector class.
 @immutable
-@JsonSerializable()
 class InjectorSummary {
   /// The abstract class that defines the injector.
   final SymbolPath clazz;
@@ -92,14 +113,25 @@ class InjectorSummary {
   });
 
   factory InjectorSummary.fromJson(Map<String, dynamic> json) =>
-      _$InjectorSummaryFromJson(json);
+      InjectorSummary(
+        clazz: SymbolPath.fromJson(json['clazz'] as Map<String, dynamic>),
+        modules: (json['modules'] as List<dynamic>)
+            .map((e) => SymbolPath.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        providers: (json['providers'] as List<dynamic>)
+            .map((e) => ProviderSummary.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      );
 
-  Map<String, dynamic> toJson() => _$InjectorSummaryToJson(this);
+  Map<String, dynamic> toJson() => {
+    'clazz': clazz.toJson(),
+    'modules': modules.map((e) => e.toJson()).toList(),
+    'providers': providers.map((e) => e.toJson()).toList(),
+  };
 }
 
 /// Metadata for a class that can be injected (e.g. annotated with `@provide` on constructor).
 @immutable
-@JsonSerializable()
 class InjectableSummary {
   /// The class that is injectable.
   final SymbolPath clazz;
@@ -110,14 +142,21 @@ class InjectableSummary {
   const InjectableSummary({required this.clazz, required this.constructor});
 
   factory InjectableSummary.fromJson(Map<String, dynamic> json) =>
-      _$InjectableSummaryFromJson(json);
+      InjectableSummary(
+        clazz: SymbolPath.fromJson(json['clazz'] as Map<String, dynamic>),
+        constructor: ProviderSummary.fromJson(
+          json['constructor'] as Map<String, dynamic>,
+        ),
+      );
 
-  Map<String, dynamic> toJson() => _$InjectableSummaryToJson(this);
+  Map<String, dynamic> toJson() => {
+    'clazz': clazz.toJson(),
+    'constructor': constructor.toJson(),
+  };
 }
 
 /// The top-level summary for a Dart library.
 @immutable
-@JsonSerializable()
 class LibrarySummary {
   /// The URI of the library (asset scheme).
   final String assetUri;
@@ -138,8 +177,29 @@ class LibrarySummary {
     this.injectables = const [],
   });
 
-  factory LibrarySummary.fromJson(Map<String, dynamic> json) =>
-      _$LibrarySummaryFromJson(json);
+  factory LibrarySummary.fromJson(Map<String, dynamic> json) => LibrarySummary(
+    assetUri: json['assetUri'] as String,
+    modules:
+        (json['modules'] as List<dynamic>?)
+            ?.map((e) => ModuleSummary.fromJson(e as Map<String, dynamic>))
+            .toList() ??
+        const [],
+    injectors:
+        (json['injectors'] as List<dynamic>?)
+            ?.map((e) => InjectorSummary.fromJson(e as Map<String, dynamic>))
+            .toList() ??
+        const [],
+    injectables:
+        (json['injectables'] as List<dynamic>?)
+            ?.map((e) => InjectableSummary.fromJson(e as Map<String, dynamic>))
+            .toList() ??
+        const [],
+  );
 
-  Map<String, dynamic> toJson() => _$LibrarySummaryToJson(this);
+  Map<String, dynamic> toJson() => {
+    'assetUri': assetUri,
+    'modules': modules.map((e) => e.toJson()).toList(),
+    'injectors': injectors.map((e) => e.toJson()).toList(),
+    'injectables': injectables.map((e) => e.toJson()).toList(),
+  };
 }

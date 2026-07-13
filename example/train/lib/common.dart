@@ -1,4 +1,4 @@
-import 'package:inject_compile/inject.dart';
+import 'package:inject_compile/inject_compile.dart';
 
 /// Provides common dependencies.
 @module

@@ -1,4 +1,4 @@
-import 'package:inject_compile/inject.dart';
+import 'package:inject_compile/inject_compile.dart';
 import 'package:test/test.dart';
 
 import 'providers_injector_test.inject.dart' as $generated;

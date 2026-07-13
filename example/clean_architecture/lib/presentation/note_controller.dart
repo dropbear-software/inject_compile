@@ -1,4 +1,4 @@
-import 'package:inject_compile/inject.dart';
+import 'package:inject_compile/inject_compile.dart';
 import '../domain/usecases/create_note_use_case.dart';
 import '../domain/usecases/get_notes_use_case.dart';
 

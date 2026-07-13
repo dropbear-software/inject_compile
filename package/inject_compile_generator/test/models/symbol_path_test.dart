@@ -46,10 +46,10 @@ void main() {
       expect(
         const SymbolPath(
           package: 'inject_compile',
-          path: 'lib/inject.dart',
+          path: 'lib/inject_compile.dart',
           symbol: 'Module',
         ).toDartUri().toString(),
-        'package:inject_compile/inject.dart',
+        'package:inject_compile/inject_compile.dart',
       );
     });
   });

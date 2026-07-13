@@ -17,7 +17,7 @@ void main() {
           class Injector { final List<Type> modules; const Injector({this.modules}); }
           class Qualifier { const Qualifier(); }
         ''',
-          'inject_compile|lib/inject.dart': '''
+          'inject_compile|lib/inject_compile.dart': '''
           import 'src/annotations.dart';
           export 'src/annotations.dart';
           const module = Module();
@@ -27,7 +27,7 @@ void main() {
           const injector = Injector();
         ''',
           'a|lib/a.dart': '''
-          import 'package:inject_compile/inject.dart';
+          import 'package:inject_compile/inject_compile.dart';
           
           @module
           class MyModule {

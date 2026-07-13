@@ -11,3 +11,6 @@
 # inject_compile intermediate and final outputs
 *.inject.summary
 *.inject.dart
+
+# Generated Dart documentation
+**/doc/api/

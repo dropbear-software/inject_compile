@@ -3,7 +3,7 @@
 A compile-time, Dagger-inspired dependency injection (DI) framework for Dart and
 Flutter. 
 
-This repository contains a modernized port of the original `inject.dart` package
+This repository contains a modernized port of the original [inject.dart](https://github.com/google/inject.dart/) package
 from Google, updated to support modern Dart, sound null safety, the latest
 analyzer, and modern build runner systems.
 
@@ -43,3 +43,9 @@ All dependency injection is resolved, validated, and generated at compile-time b
 
 `inject_compile` does not depend on Flutter or any specific framework, making it
 equally suitable for command-line applications, server-side Dart, or Flutter apps.
+
+## Acknowledgement
+
+Please note that all of the original code in [inject.dart](https://github.com/google/inject.dart/) 
+which these packages is heavily based on is Copyright by Google and originally licenced under a 
+MIT Licence which has been kept. Special thanks to @matanlurey who was the primary original author.

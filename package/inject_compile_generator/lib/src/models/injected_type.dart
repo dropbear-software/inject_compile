@@ -11,7 +11,7 @@ class InjectedType {
   /// The type the user is trying to inject.
   final LookupKey lookupKey;
 
-  /// True if the user is trying to inject a provider (factory function) of the type.
+  /// Whether the user is trying to inject a provider (factory function) of the type.
   final bool isProvider;
 
   const InjectedType({required this.lookupKey, this.isProvider = false});

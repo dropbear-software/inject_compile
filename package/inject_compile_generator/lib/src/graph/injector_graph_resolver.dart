@@ -11,7 +11,7 @@ import '../models/summary.dart';
 import '../models/symbol_path.dart';
 import 'summary_reader.dart';
 
-/// Resolves a dependency graph for an injector.
+/// A resolver for building the dependency graph of an injector.
 class InjectorGraphResolver {
   final SummaryReader _reader;
   final InjectorSummary _injectorSummary;
@@ -20,7 +20,7 @@ class InjectorGraphResolver {
   InjectorGraphResolver(this._reader, this._injectorSummary, {Logger? logger})
     : _logger = logger ?? Logger('InjectorGraphResolver');
 
-  /// Resolves the graph.
+  /// The resolved dependency graph.
   Future<InjectorGraph> resolve() async {
     final allModules = <ModuleSummary>[];
     final providersByModules = <LookupKey, DependencyProvidedByModule>{};

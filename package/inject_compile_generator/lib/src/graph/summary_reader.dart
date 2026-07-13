@@ -7,13 +7,13 @@ import 'dart:io';
 import 'package:build/build.dart';
 import '../models/summary.dart';
 
-/// Reads and caches [LibrarySummary] instances.
+/// A reader that retrieves and caches [LibrarySummary] instances.
 abstract class SummaryReader {
-  /// Reads a summary from [assetId].
+  /// The [LibrarySummary] read from [assetId].
   Future<LibrarySummary> read(AssetId assetId);
 }
 
-/// Implementation of [SummaryReader] that uses an [AssetReader].
+/// An implementation of [SummaryReader] that uses an [AssetReader] to load summaries.
 class AssetSummaryReader implements SummaryReader {
   final AssetReader _reader;
   final Map<AssetId, LibrarySummary> _cache = {};

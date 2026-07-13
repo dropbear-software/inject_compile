@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the asynchronous constant from the inject library, for the Dart programming language.">
+  <title>asynchronous constant - inject library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">inject_compile</a></li>
+    <li><a href="../inject/">inject.dart</a></li>
+    <li class="self-crumb">asynchronous constant</li>
+  </ol>
+  <div class="self-name">asynchronous</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="inject&#47;inject-library-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-top-level-property">asynchronous</span> top-level constant 
+ 
+</h1></div>
+
+        <section class="multi-line-signature">
+          
+          Asynchronous
+          const <span class="name ">asynchronous</span>
+          
+
+        </section>
+        
+<section class="desc markdown">
+  <p>An annotation to mark a module provider method that returns a <a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a>.</p>
+<p>Such a provider is referred to as an <em>asynchronous provider</em>. Asynchronous
+providers are resolved from futures into dependency instances prior to
+returning the injector to the application.</p>
+<p>For example:</p>
+<pre class="language-dart"><code class="language-dart">@module
+abstract class CarModule {
+  @provide
+  @asynchronous
+  Future&lt;Car&gt; provideCar();
+}
+
+class Dealership {
+  @provide
+  Dealership(Car car);
+}
+</code></pre>
+<p>Note that in the example <code>Dealership</code> depends on <code>Car</code> rather than
+<code>Future&lt;Car&gt;</code>. This is the quintessential property of the <a href="../inject/asynchronous-constant.html">asynchronous</a>
+annotation. It guarantees that <code>Future&lt;Car&gt;</code> is resolved into <code>Car</code>
+<em>prior to</em> instantiating objects that depend on it.</p>
+<p>If you wish to inject the <code>Future</code> itself without resolving it, simply
+omit this annotation and the <code>Future</code> will be treated as a normal type, and
+the framework will not attempt to resolve it.</p>
+</section>
+
+        
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">const asynchronous = Asynchronous._();</code></pre>
+</section>
+
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">inject_compile</a></li>
+    <li><a href="../inject/">inject</a></li>
+    <li class="self-crumb">asynchronous constant</li>
+</ol>
+
+    <h5>inject library</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-left-->
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    inject_compile
+      0.9.0
+  </span>
+  
+</footer>
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

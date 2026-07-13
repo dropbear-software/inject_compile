@@ -8,7 +8,7 @@ import '../graph/summary_reader.dart';
 import '../models/summary.dart';
 import 'injector_generator.dart';
 
-/// A builder that generates DI implementations for @injector-annotated classes.
+/// A builder that generates DI implementations for [Injector]-annotated classes.
 class InjectBuilder implements Builder {
   final DartFormatter _formatter = DartFormatter(
     languageVersion: DartFormatter.latestLanguageVersion,

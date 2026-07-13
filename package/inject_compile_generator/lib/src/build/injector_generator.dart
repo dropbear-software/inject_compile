@@ -4,14 +4,14 @@ import '../models/injector_graph.dart';
 import '../models/lookup_key.dart';
 import '../models/symbol_path.dart';
 
-/// Generates a concrete implementation of an `@injector`-annotated class.
+/// A generator that creates concrete implementations of [Injector]-annotated classes.
 class InjectorGenerator {
   final InjectorGraph graph;
   final SymbolPath injectorPath;
 
   InjectorGenerator(this.graph, this.injectorPath);
 
-  /// Generates the library containing the injector implementation.
+  /// The generated library containing the injector implementation.
   Library generate() {
     return Library(
       (b) => b

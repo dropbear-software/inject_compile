@@ -3,24 +3,24 @@ import 'package:meta/meta.dart';
 
 part 'symbol_path.g.dart';
 
-/// Represents the absolute canonical location of a symbol within Dart.
+/// The absolute canonical location of a symbol within Dart.
 @immutable
 @JsonSerializable()
 class SymbolPath {
-  /// Name of the package containing the Dart source code.
+  /// The name of the package containing the Dart source code.
   ///
   /// For Dart core libraries use "dart". For global symbols, this is null.
   final String? package;
 
-  /// Location relative to the package root (e.g., 'lib/foo.dart').
+  /// The location relative to the package root (e.g., 'lib/foo.dart').
   ///
   /// For global symbols, this is null.
   final String? path;
 
-  /// Name of the top-level symbol within the Dart source code referenced.
+  /// The name of the top-level symbol within the referenced Dart source code.
   final String symbol;
 
-  /// Type arguments, if any.
+  /// The type arguments of the symbol, if any.
   final List<SymbolPath> typeArguments;
 
   const SymbolPath({
@@ -30,7 +30,7 @@ class SymbolPath {
     this.typeArguments = const [],
   });
 
-  /// Within the dart SDK, reference [symbol] found at [path].
+  /// Creates a reference to [symbol] found at [path] within the Dart SDK.
   factory SymbolPath.dartSdk(
     String path,
     String symbol, [
@@ -58,7 +58,7 @@ class SymbolPath {
   /// Whether [symbol] is a global key.
   bool get isGlobal => package == null && path == null;
 
-  /// Returns a new absolute 'dart:', 'asset:', or 'global:' [Uri].
+  /// A new absolute 'dart:', 'asset:', or 'global:' [Uri] representing this path.
   Uri toAbsoluteUri() {
     if (isGlobal) {
       return Uri(scheme: 'global', fragment: symbol);
@@ -70,7 +70,7 @@ class SymbolPath {
     );
   }
 
-  /// Returns a [Uri] for this path that can be used in a Dart import statement.
+  /// A [Uri] for this path that can be used in a Dart import statement.
   Uri toDartUri() {
     if (isGlobal) {
       throw UnsupportedError('Global keys do not map to Dart source.');

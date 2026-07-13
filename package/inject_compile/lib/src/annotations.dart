@@ -1,7 +1,6 @@
 import 'package:meta/meta.dart';
 
-/// A reserved name that can be used alongside a [provide] annotation to further
-/// specify the key.
+/// A metadata annotation representing a reserved name used alongside [provide] to further specify a key.
 ///
 /// [Qualifier] must be placed at the same level as a `@provide` annotation. It
 /// is **illegal** to have more than one [Qualifier] for a given provider.
@@ -21,15 +20,15 @@ import 'package:meta/meta.dart';
 /// dependency tree.
 @immutable
 class Qualifier {
-  /// Unique name of the identifier.
+  /// The unique name of this qualifier.
   final Symbol name;
 
-  /// Create a named provider qualifier from [name].
+  /// Creates a named provider qualifier from [name].
   @literal
   const Qualifier(this.name);
 }
 
-/// Annotates a class as a collection of providers for dependency injection.
+/// An annotation to mark a class as a collection of providers for dependency injection.
 ///
 /// A class annotated with [module] is a class that can be used to insert
 /// dependencies into the object graph. Modules may extend or mixin other
@@ -53,14 +52,15 @@ class Qualifier {
 /// satisfied in the final object graph.
 const module = Module._();
 
-/// **INTERNAL ONLY**: Might be exposed if we add flags or other properties.
+/// An internal representation of the [module] annotation.
+///
+/// This class is internal-only and might be exposed if we add flags or other properties.
 @visibleForTesting
 class Module {
   const Module._();
 }
 
-/// Annotation for a method (in an [Injector] or [module]), class, or
-/// constructor that provides an instance.
+/// An annotation for a method (in an [Injector] or [module]), class, or constructor that provides an instance.
 ///
 /// - If the annotation is on a class or constructor, the class is entered into
 ///   the dependency graph and its constructor's arguments are injected when the
@@ -75,7 +75,9 @@ class Module {
 /// [Qualifier] annotation.
 const provide = Provide._();
 
-/// **INTERNAL ONLY**: Might be exposed if we add flags or other properties.
+/// An internal representation of the [provide] annotation.
+///
+/// This class is internal-only and might be exposed if we add flags or other properties.
 @visibleForTesting
 class Provide {
   const Provide._();
@@ -102,15 +104,17 @@ class Provide {
 /// ```
 const singleton = Singleton._();
 
-/// **INTERNAL ONLY**: Might be exposed if we add flags or other properties.
+/// An internal representation of the [singleton] annotation.
+///
+/// This class is internal-only and might be exposed if we add flags or other properties.
 @visibleForTesting
 class Singleton {
   const Singleton._();
 }
 
-/// Annotates a module provider method that returns a `Future`.
+/// An annotation to mark a module provider method that returns a [Future].
 ///
-/// Such a provider is referred to as _asynchronous provider_. Asynchronous
+/// Such a provider is referred to as an _asynchronous provider_. Asynchronous
 /// providers are resolved from futures into dependency instances prior to
 /// returning the injector to the application.
 ///
@@ -139,13 +143,15 @@ class Singleton {
 /// the framework will not attempt to resolve it.
 const asynchronous = Asynchronous._();
 
-/// **INTERNAL ONLY**: Might be exposed if we add flags or other properties.
+/// An internal representation of the [asynchronous] annotation.
+///
+/// This class is internal-only and might be exposed if we add flags or other properties.
 @visibleForTesting
 class Asynchronous {
   const Asynchronous._();
 }
 
-/// Annotates an abstract class used as a blueprint to generate an injector.
+/// An annotation marking an abstract class as a blueprint to generate an injector.
 ///
 /// Example:
 /// ```dart
@@ -176,12 +182,12 @@ class Asynchronous {
 /// `CoffeeShop$Injector.create`. This is not strictly necessary, but useful to
 /// hide the generated code from the call sites.
 class Injector {
-  /// Modules supplying providers for the injector.
+  /// The list of modules supplying providers for the injector.
   ///
-  /// Each [Type] must be a `class` definition annotated with [module].
+  /// Each [Type] must be a class definition annotated with [module].
   final List<Type> modules;
 
-  /// Create a blueprint for an injector.
+  /// Creates a blueprint for an injector.
   @literal
   const Injector([this.modules = const <Type>[]]);
 }

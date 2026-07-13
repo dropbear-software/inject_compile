@@ -8,10 +8,10 @@ part 'lookup_key.g.dart';
 @immutable
 @JsonSerializable()
 class LookupKey {
-  /// SymbolPath of the root type.
+  /// The [SymbolPath] of the root type.
   final SymbolPath root;
 
-  /// Optional qualifier for the type.
+  /// The optional qualifier for the type.
   final SymbolPath? qualifier;
 
   const LookupKey({required this.root, this.qualifier});
@@ -21,7 +21,7 @@ class LookupKey {
 
   Map<String, dynamic> toJson() => _$LookupKeyToJson(this);
 
-  /// Returns a human-readable string representation of this key.
+  /// A human-readable string representation of this key.
   String toPrettyString() {
     if (qualifier != null) {
       return '@${qualifier!.symbol} ${root.symbol}';

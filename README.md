@@ -1,28 +1,45 @@
-# `inject_compile`
+# Modernized Compile-Time Dependency Injection for Dart & Flutter
 
-Compile-time dependency injection for Dart and Flutter.
+A compile-time, Dagger-inspired dependency injection (DI) framework for Dart and
+Flutter. 
 
-This workspace contains the modern port of [inject.dart](https://github.com/google/inject.dart) renamed to `inject_compile`, updated to support modern Dart, sound null safety, and the latest analyzer and build systems.
+This repository contains a modernized port of the original `inject.dart` package
+from Google, updated to support modern Dart, sound null safety, the latest
+analyzer, and modern build runner systems.
 
 ## Packages
 
-This repository is set up as a [Dart Workspace](https://dart.dev/tools/pub/workspaces) containing two main packages:
+This repository is organized as a [Dart Workspace](https://dart.dev/tools/pub/workspaces)
+containing two core packages:
 
-*   [`inject_compile`](package/inject_compile/README.md): The annotation library (`@provide`, `@module`, `@injector`, etc.) that you include as a regular dependency in your app.
-*   [`inject_compile_generator`](package/inject_compile_generator/README.md): The `build_runner` code generator that parses your annotations and generates the boilerplate dependency injection code at compile time.
+*   [`inject_compile`](package/inject_compile/README.md): The annotation library
+    (`@provide`, `@module`, `@injector`, etc.) included in your application.
+*   [`inject_compile_generator`](package/inject_compile_generator/README.md): The
+    `build_runner` code generator that constructs the dependency graph at build
+    time.
 
 ## Examples
 
-Check out the `example/` directory for sample projects demonstrating how to use `inject_compile`:
+Explore the `example/` directory for sample projects:
 
-*   [`example/coffee`](example/coffee/README.md): A simple command-line coffee shop example (the classic Dagger example).
-*   [`example/train`](example/train/README.md): Another example demonstrating modules and asynchronous injection.
-*   [`example/clean_architecture`](example/clean_architecture/README.md): Another example demonstrating a canonical clean architecture style application built with `inject_compile`.
+*   [`example/coffee`](example/coffee/README.md): A basic command-line coffee
+    shop simulation (the classic Dagger example).
+*   [`example/train`](example/train/README.md): An example demonstrating multi-module
+    composition and asynchronous injection (`@asynchronous`).
+*   [`example/clean_architecture`](example/clean_architecture/README.md): A complete
+    command-line notes application demonstrating clean architecture (Domain,
+    Data, and Presentation layers) integrated with compile-time DI.
 
 ## Why Compile-Time?
 
-All dependency injection is analyzed, configured, and generated at compile-time as part of a `build_runner` build process, and does not rely on any runtime setup or configuration (such as reflection with `dart:mirrors`). This provides the best experience in terms of code-size and performance (it's nearly identical to hand written code) and allows us to provide compile-time errors and warnings instead of relying on runtime exceptions.
+All dependency injection is resolved, validated, and generated at compile-time by
+`build_runner`. This eliminates the need for runtime reflection (like
+`dart:mirrors`) or service locator lookups, yielding:
+*   **Fast startup times** and smaller binary footprints (ideal for Flutter).
+*   **Compile-time safety**: Dependency cycles, missing providers, or conflicts
+    are caught during code generation, not at runtime.
 
 ## Framework Agnostic
 
-`inject_compile` is framework and platform agnostic, meaning it works perfectly well with Flutter, server-side Dart, or any other Dart environment.
+`inject_compile` does not depend on Flutter or any specific framework, making it
+equally suitable for command-line applications, server-side Dart, or Flutter apps.

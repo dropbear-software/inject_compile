@@ -1,12 +1,17 @@
-# `inject_compile`
+# Compile-Time Dependency Injection for Dart & Flutter
 
-The annotation library for `inject_compile`, a compile-time dependency injection framework for Dart and Flutter.
+This package provides the annotations used to declare a compile-time dependency
+injection (DI) graph. It is a modern, sound null-safe port of the original
+`inject.dart` from Google.
 
-This package provides the annotations used to define your dependency injection graph. It does **not** contain the code generator; you must also use `inject_compile_generator` as a `dev_dependency` to actually generate the DI code.
+Since this library generates code at compile time, it does not rely on runtime
+reflection (such as `dart:mirrors`). This ensures maximum performance and
+minimal build sizes for Flutter and standalone Dart applications.
 
 ## Getting Started
 
-Add this package as a regular dependency, and `inject_compile_generator` as a dev dependency, in your `pubspec.yaml`:
+Add `inject_compile` as a dependency and `inject_compile_generator` as a dev
+dependency in your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
@@ -19,27 +24,43 @@ dev_dependencies:
 
 ## Annotations
 
-### `@provide` (or `@Provide()`)
-Marks a constructor, method, or getter as providing a dependency. 
-- When applied to a **class constructor**, the framework will know how to instantiate that class.
-- When applied to a **method or getter in a `@module`**, the framework will call it to retrieve a dependency.
+### `@provide`
 
-### `@module` (or `@Module()`)
-Marks a class as a module. Modules encapsulate provider methods that supply dependencies which are not easily instantiated directly (such as interfaces, third-party classes, or async dependencies).
+Marks a constructor, method, or getter as providing a dependency.
+*   **On a class constructor**: Registers the class in the dependency graph
+    so the framework knows how to instantiate it.
+*   **On a module method/getter**: Registers the return type as a dependency.
+    The framework calls this member to obtain the instance.
 
-### `@injector` (or `@Injector([ModuleType, ...])`)
-Marks a class as the root of a dependency injection graph. Injectors define the dependencies that the rest of your application requires. 
-The generator will create a concrete subclass (e.g. `YourClass$Injector`) that implements your injector interface.
+### `@module`
 
-### `@singleton` (or `@Singleton()`)
-When combined with `@provide`, indicates that the dependency should be instantiated only once per injector instance. All subsequent requests for this type will return the same instance.
+Marks a class as a module. Modules contain provider methods for dependencies
+that cannot be easily instantiated directly (such as interfaces, third-party
+classes, or asynchronous resources).
 
-### `@asynchronous` (or `@Asynchronous()`)
-Marks a `@provide` method as asynchronous. The generated injector will await the provided `Future` during its `create()` phase, making the resolved value available synchronously to other dependencies.
+### `@injector`
 
-### `@qualifier` (or `@Qualifier(#name)`)
-Used to differentiate multiple bindings of the same type. You can create custom qualifier annotations by annotating them with `@qualifier`.
+Marks an abstract class as the root of a dependency injection graph. The code
+generator creates a concrete implementation subclass (e.g., `YourClass$Injector`)
+implementing this interface.
 
-## Usage
+### `@singleton`
 
-See the workspace `example/` directory for full examples.
+Combined with `@provide`, indicates that a dependency is instantiated only once
+per injector instance. All subsequent requests return the same instance.
+
+### `@asynchronous`
+
+Marks a provider method returning a `Future` as asynchronous. The generated
+injector awaits the future during creation, resolving the value synchronously
+for any dependent classes.
+
+### `@Qualifier`
+
+Differentiates multiple bindings of the same type by associating a symbol
+(e.g., `@Qualifier(#name)`) with the provider.
+
+## Next Steps
+
+*   To run the generator, refer to the `inject_compile_generator` package page.
+*   For complete samples, see the workspace examples.

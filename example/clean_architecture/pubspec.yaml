@@ -1,0 +1,16 @@
+name: clean_architecture
+description: A clean architecture example using inject_compile
+version: 1.0.0
+
+environment:
+  sdk: ^3.12.2
+resolution: workspace
+
+dependencies:
+  inject_compile: ^0.9.0
+
+dev_dependencies:
+  test: ^1.25.6
+  inject_compile_generator: ^0.9.0
+  build_runner: ^2.4.0
+  lints: ^6.0.0

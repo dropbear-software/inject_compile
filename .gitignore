@@ -1,0 +1,13 @@
+**/.dart_tool/
+**/.packages
+**/.pub/
+*/build/
+*/*/build/
+**/pubspec.lock
+
+# Generated Dart code
+*.g.dart
+
+# inject_compile intermediate and final outputs
+*.inject.summary
+*.inject.dart

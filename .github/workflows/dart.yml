@@ -1,0 +1,32 @@
+name: Dart
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Run code generation
+        run: dart run build_runner build --workspace
+
+      # Verify the use of 'dart format' on each commit.
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      # Ensure the analyzer passes without issues
+      - name: Analyze project source
+        run: dart analyze --fatal-infos
+
+      # Ensure the test suite works
+      - name: Run tests
+        run: dart test -p vm package/inject_compile/test package/inject_compile_generator/test example/coffee/test example/train/test example/clean_architecture/test

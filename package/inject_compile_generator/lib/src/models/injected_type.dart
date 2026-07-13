@@ -1,12 +1,8 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'lookup_key.dart';
 
-part 'injected_type.g.dart';
-
 /// A type that is being injected, with metadata about how it is being injected.
 @immutable
-@JsonSerializable()
 class InjectedType {
   /// The type the user is trying to inject.
   final LookupKey lookupKey;
@@ -16,10 +12,15 @@ class InjectedType {
 
   const InjectedType({required this.lookupKey, this.isProvider = false});
 
-  factory InjectedType.fromJson(Map<String, dynamic> json) =>
-      _$InjectedTypeFromJson(json);
+  factory InjectedType.fromJson(Map<String, dynamic> json) => InjectedType(
+    lookupKey: LookupKey.fromJson(json['lookupKey'] as Map<String, dynamic>),
+    isProvider: json['isProvider'] as bool? ?? false,
+  );
 
-  Map<String, dynamic> toJson() => _$InjectedTypeToJson(this);
+  Map<String, dynamic> toJson() => {
+    'lookupKey': lookupKey.toJson(),
+    'isProvider': isProvider,
+  };
 
   @override
   bool operator ==(Object other) =>

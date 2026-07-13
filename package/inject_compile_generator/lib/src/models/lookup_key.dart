@@ -1,12 +1,8 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'symbol_path.dart';
 
-part 'lookup_key.g.dart';
-
 /// A representation of a key in the dependency injection graph.
 @immutable
-@JsonSerializable()
 class LookupKey {
   /// The [SymbolPath] of the root type.
   final SymbolPath root;
@@ -16,10 +12,17 @@ class LookupKey {
 
   const LookupKey({required this.root, this.qualifier});
 
-  factory LookupKey.fromJson(Map<String, dynamic> json) =>
-      _$LookupKeyFromJson(json);
+  factory LookupKey.fromJson(Map<String, dynamic> json) => LookupKey(
+    root: SymbolPath.fromJson(json['root'] as Map<String, dynamic>),
+    qualifier: json['qualifier'] == null
+        ? null
+        : SymbolPath.fromJson(json['qualifier'] as Map<String, dynamic>),
+  );
 
-  Map<String, dynamic> toJson() => _$LookupKeyToJson(this);
+  Map<String, dynamic> toJson() => {
+    'root': root.toJson(),
+    if (qualifier != null) 'qualifier': qualifier!.toJson(),
+  };
 
   /// A human-readable string representation of this key.
   String toPrettyString() {

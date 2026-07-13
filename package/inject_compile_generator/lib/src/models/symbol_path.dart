@@ -1,11 +1,7 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-
-part 'symbol_path.g.dart';
 
 /// The absolute canonical location of a symbol within Dart.
 @immutable
-@JsonSerializable()
 class SymbolPath {
   /// The name of the package containing the Dart source code.
   ///
@@ -47,10 +43,24 @@ class SymbolPath {
     : package = null,
       path = null;
 
-  factory SymbolPath.fromJson(Map<String, dynamic> json) =>
-      _$SymbolPathFromJson(json);
+  factory SymbolPath.fromJson(Map<String, dynamic> json) => SymbolPath(
+    package: json['package'] as String?,
+    path: json['path'] as String?,
+    symbol: json['symbol'] as String,
+    typeArguments:
+        (json['typeArguments'] as List<dynamic>?)
+            ?.map((e) => SymbolPath.fromJson(e as Map<String, dynamic>))
+            .toList() ??
+        const [],
+  );
 
-  Map<String, dynamic> toJson() => _$SymbolPathToJson(this);
+  Map<String, dynamic> toJson() => {
+    if (package != null) 'package': package,
+    if (path != null) 'path': path,
+    'symbol': symbol,
+    if (typeArguments.isNotEmpty)
+      'typeArguments': typeArguments.map((e) => e.toJson()).toList(),
+  };
 
   /// Whether the [path] points within the Dart SDK, not a pub package.
   bool get isDartSdk => package == 'dart';

@@ -1,4 +1,4 @@
-import 'package:inject_compile/inject.dart';
+import 'package:inject_compile/inject_compile.dart';
 import '../domain/repositories/note_repository.dart';
 import '../data/repositories/note_repository_impl.dart';
 import '../data/datasources/note_data_source.dart';

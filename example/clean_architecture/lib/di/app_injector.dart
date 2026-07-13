@@ -1,4 +1,4 @@
-import 'package:inject_compile/inject.dart';
+import 'package:inject_compile/inject_compile.dart';
 import 'data_module.dart';
 import '../presentation/cli_view.dart';
 import 'app_injector.inject.dart' as g;

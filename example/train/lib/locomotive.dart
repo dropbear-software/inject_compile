@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:inject_compile/inject.dart';
+import 'package:inject_compile/inject_compile.dart';
 
 import 'bike.dart';
 import 'common.dart';

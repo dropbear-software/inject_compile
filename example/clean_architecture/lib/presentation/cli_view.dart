@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:inject_compile/inject.dart';
+import 'package:inject_compile/inject_compile.dart';
 import 'note_controller.dart';
 
 /// The command-line interface view for interacting with notes.

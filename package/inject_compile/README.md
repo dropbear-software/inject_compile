@@ -10,11 +10,11 @@ Add this package as a regular dependency, and `inject_compile_generator` as a de
 
 ```yaml
 dependencies:
-  inject_compile: ^1.0.0
+  inject_compile: ^0.9.0
 
 dev_dependencies:
   build_runner: ^2.4.0
-  inject_compile_generator: ^1.0.0
+  inject_compile_generator: ^0.9.0
 ```
 
 ## Annotations

@@ -2,10 +2,10 @@
 
 This package provides the annotations used to declare a compile-time dependency
 injection (DI) graph. It is a modern, sound null-safe port of the original
-`inject.dart` from Google.
+[inject.dart](https://github.com/google/inject.dart/) from Google.
 
 Since this library generates code at compile time, it does not rely on runtime
-reflection (such as `dart:mirrors`). This ensures maximum performance and
+reflection or any kind of dynamic lookup. This ensures maximum performance and
 minimal build sizes for Flutter and standalone Dart applications.
 
 ## Getting Started
@@ -64,3 +64,9 @@ Differentiates multiple bindings of the same type by associating a symbol
 
 *   To run the generator, refer to the `inject_compile_generator` package page.
 *   For complete samples, see the workspace examples.
+
+## Acknowledgement
+
+Please note that all of the original code in [inject.dart](https://github.com/google/inject.dart/) 
+which these packages is heavily based on is Copyright by Google and originally licenced under a 
+MIT Licence which has been kept. Special thanks to Matan Lurey who was the primary original author.

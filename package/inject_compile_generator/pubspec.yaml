@@ -1,9 +1,15 @@
 name: inject_compile_generator
-description: Dev-time dependency for package:inject.
-version: 0.9.0
+description: The dev dependency for package:inject_compile that enables compile time dependency injection.
+version: 0.9.1
 homepage: https://github.com/dropbear-software/inject_compile/tree/main/package/inject_compile_generator
 repository: https://github.com/dropbear-software/inject_compile/tree/main/package/inject_compile_generator
 issue_tracker: https://github.com/dropbear-software/inject_compile/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ainject_compile_generator
+topics: 
+  - dependency-injection
+  - di
+  - dependency-management
+  - dependency-injector
+  - build-runner
 
 environment:
   sdk: ^3.12.2

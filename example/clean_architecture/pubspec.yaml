@@ -1,6 +1,7 @@
 name: clean_architecture
 description: A clean architecture example using inject_compile
 version: 1.0.0
+publish_to: none
 
 environment:
   sdk: ^3.12.2

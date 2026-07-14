@@ -1,11 +1,11 @@
-# Modernized Compile-Time Dependency Injection for Dart & Flutter
+# Compile-Time Dependency Injection for Dart & Flutter
 
 A compile-time, Dagger-inspired dependency injection (DI) framework for Dart and
 Flutter. 
 
-This repository contains a modernized port of the original [inject.dart](https://github.com/google/inject.dart/) package
-from Google, updated to support modern Dart, sound null safety, the latest
-analyzer, and modern build runner systems.
+This repository contains a port of the original [inject.dart](https://github.com/google/inject.dart/) package
+from Google, updated to support Dart 3, sound null safety, the latest
+analyzer, and modern build tooling.
 
 ## Packages
 

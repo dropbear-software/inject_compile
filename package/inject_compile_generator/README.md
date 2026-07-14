@@ -52,3 +52,9 @@ runtime exceptions.
 
 *   To learn how to define your object graph, visit the `inject_compile` annotations library.
 *   For complete samples, see the workspace examples.
+
+## Acknowledgement
+
+Please note that all of the original code in [inject.dart](https://github.com/google/inject.dart/) 
+which these packages is heavily based on is Copyright by Google and originally licenced under a 
+MIT Licence which has been kept. Special thanks to Matan Lurey who was the primary original author.

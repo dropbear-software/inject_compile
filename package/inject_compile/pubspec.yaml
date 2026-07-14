@@ -1,9 +1,15 @@
 name: inject_compile
-description: Compile-time dependency injection for Dart
-version: 0.9.0
+description: Compile-Time Dependency Injection for Dart & Flutter 
+version: 0.9.1
 homepage: https://github.com/dropbear-software/inject_compile/tree/main/package/inject_compile
 repository: https://github.com/dropbear-software/inject_compile/tree/main/package/inject_compile
 issue_tracker: https://github.com/dropbear-software/inject_compile/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ainject_compile
+topics: 
+  - dependency-injection
+  - di
+  - dependency-management
+  - dependency-injector
+  - build-runner
 
 environment:
   sdk: ^3.12.2

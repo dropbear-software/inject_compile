@@ -139,7 +139,7 @@ void main() {
       );
 
       final resolver = InjectorGraphResolver(reader, injectorSummary);
-      await resolver.resolve();
+      expect(resolver.resolve(), throwsStateError);
     });
   });
 }

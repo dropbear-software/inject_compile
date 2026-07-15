@@ -136,9 +136,7 @@ class InjectorGraphResolver {
         final index = chain.indexOf(current);
         if (index != -1) {
           final cycle = _Cycle(chain.sublist(index)..add(current));
-          if (cycles.add(cycle)) {
-            _logger.severe('Detected dependency cycle:\n${cycle.format()}');
-          }
+          cycles.add(cycle);
           return;
         }
 
@@ -154,6 +152,14 @@ class InjectorGraphResolver {
       }
 
       visit(key);
+    }
+
+    if (cycles.isNotEmpty) {
+      final message = StringBuffer('Detected circular dependencies:\n');
+      for (final cycle in cycles) {
+        message.writeln(cycle.format());
+      }
+      throw StateError(message.toString());
     }
   }
 }

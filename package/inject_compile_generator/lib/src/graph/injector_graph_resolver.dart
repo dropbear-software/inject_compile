@@ -21,6 +21,11 @@ class InjectorGraphResolver {
     final allModules = <ModuleSummary>[];
     final providersByModules = <LookupKey, DependencyProvidedByModule>{};
     final injectables = <LookupKey, InjectableSummary>{};
+    final requestedByMap = <LookupKey, Set<SymbolPath>>{};
+
+    void recordRequest(LookupKey key, SymbolPath requestedBy) {
+      requestedByMap.putIfAbsent(key, () => {}).add(requestedBy);
+    }
 
     // 1. Collect all modules starting from the injector.
     for (final modulePath in _injectorSummary.modules) {
@@ -32,6 +37,8 @@ class InjectorGraphResolver {
       LookupKey key, {
       required SymbolPath requestedBy,
     }) async {
+      recordRequest(key, requestedBy);
+
       // Modules take precedence.
       if (providersByModules.containsKey(key) || injectables.containsKey(key)) {
         return;
@@ -41,13 +48,15 @@ class InjectorGraphResolver {
         final summary = await _reader.read(
           AssetId(key.root.package!, key.root.path!),
         );
-        for (final injectable in summary.injectables) {
-          if (injectable.clazz == key.root) {
-            injectables[key] = injectable;
-            for (final dep in injectable.constructor.dependencies) {
-              await resolveKey(dep.lookupKey, requestedBy: injectable.clazz);
+        if (summary != null) {
+          for (final injectable in summary.injectables) {
+            if (injectable.clazz == key.root) {
+              injectables[key] = injectable;
+              for (final dep in injectable.constructor.dependencies) {
+                await resolveKey(dep.lookupKey, requestedBy: injectable.clazz);
+              }
+              return;
             }
-            return;
           }
         }
       }
@@ -68,6 +77,27 @@ class InjectorGraphResolver {
         provider.resultType.lookupKey,
         requestedBy: _injectorSummary.clazz,
       );
+    }
+
+    // Check for missing dependency providers.
+    final missingDependencies = <LookupKey, Set<SymbolPath>>{};
+    for (final key in requestedByMap.keys) {
+      if (!providersByModules.containsKey(key) &&
+          !injectables.containsKey(key)) {
+        missingDependencies[key] = requestedByMap[key]!;
+      }
+    }
+
+    if (missingDependencies.isNotEmpty) {
+      final message = StringBuffer('Missing dependency providers:\n');
+      missingDependencies.forEach((key, requesters) {
+        message.writeln('  - ${key.toPrettyString()}');
+        message.writeln('    requested by:');
+        for (final req in requesters) {
+          message.writeln('      * ${req.symbol} (${req.toAbsoluteUri()})');
+        }
+      });
+      throw StateError(message.toString());
     }
 
     // 3. Construct the merged dependencies map.
@@ -106,6 +136,10 @@ class InjectorGraphResolver {
     final summary = await _reader.read(
       AssetId(modulePath.package!, modulePath.path!),
     );
+    if (summary == null) {
+      _logger.severe('Module summary not found for $modulePath.');
+      return;
+    }
     final module = summary.modules.firstWhereOrNull(
       (m) => m.clazz == modulePath,
     );

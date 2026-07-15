@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:build/build.dart';
 import 'package:inject_compile_generator/src/graph/injector_graph_resolver.dart';
 import 'package:inject_compile_generator/src/graph/summary_reader.dart';
@@ -141,6 +140,54 @@ void main() {
       final resolver = InjectorGraphResolver(reader, injectorSummary);
       expect(resolver.resolve(), throwsStateError);
     });
+
+    test('fails on missing dependencies', () async {
+      final aPath = SymbolPath(package: 'pkg', path: 'lib/a.dart', symbol: 'A');
+      final bPath = SymbolPath(package: 'pkg', path: 'lib/b.dart', symbol: 'B');
+      final injectorPath = SymbolPath(
+        package: 'pkg',
+        path: 'lib/main.dart',
+        symbol: 'MainInjector',
+      );
+
+      reader.addSummary(
+        AssetId('pkg', 'lib/a.dart'),
+        LibrarySummary(
+          assetUri: 'package:pkg/a.dart',
+          injectables: [
+            InjectableSummary(
+              clazz: aPath,
+              constructor: ProviderSummary(
+                name: '',
+                kind: ProviderKind.constructor,
+                resultType: InjectedType(lookupKey: LookupKey(root: aPath)),
+                isSingleton: false,
+                isAsynchronous: false,
+                dependencies: [InjectedType(lookupKey: LookupKey(root: bPath))],
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final injectorSummary = InjectorSummary(
+        clazz: injectorPath,
+        modules: [],
+        providers: [
+          ProviderSummary(
+            name: 'getA',
+            kind: ProviderKind.method,
+            resultType: InjectedType(lookupKey: LookupKey(root: aPath)),
+            isSingleton: false,
+            isAsynchronous: false,
+            dependencies: [],
+          ),
+        ],
+      );
+
+      final resolver = InjectorGraphResolver(reader, injectorSummary);
+      expect(resolver.resolve(), throwsStateError);
+    });
   });
 }
 
@@ -152,11 +199,7 @@ class FakeSummaryReader implements SummaryReader {
   }
 
   @override
-  Future<LibrarySummary> read(AssetId assetId) async {
-    final summary = _summaries[assetId];
-    if (summary == null) {
-      throw FileSystemException(assetId.uri.toString(), 'Summary not found');
-    }
-    return summary;
+  Future<LibrarySummary?> read(AssetId assetId) async {
+    return _summaries[assetId];
   }
 }

@@ -1,0 +1,4 @@
+# Configures default testing platforms for the workspace.
+# Restricted to the VM platform to avoid compilation overhead or target errors on browser/Node.js.
+platforms:
+  - vm

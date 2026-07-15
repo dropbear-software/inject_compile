@@ -29,4 +29,4 @@ jobs:
 
       # Ensure the test suite works
       - name: Run tests
-        run: dart test -p vm package/inject_compile/test package/inject_compile_generator/test example/coffee/test example/train/test example/clean_architecture/test
+        run: dart test package/inject_compile/test package/inject_compile_generator/test example/coffee/test example/train/test example/clean_architecture/test
